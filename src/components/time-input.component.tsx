@@ -1,31 +1,48 @@
-import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
+import 'moment-timezone';
+import moment, { Moment } from 'moment-timezone';
+import { useState } from 'react';
+import Select from 'react-select';
+import { Option, getTimeZoneOption } from '../models/option';
+import { Options } from 'react-select';
+import { Col, Container, Row } from 'react-bootstrap';
 
-declare namespace Intl {
-  type Key = 'calendar' | 'collation' | 'currency' | 'numberingSystem' | 'timeZone' | 'unit';
-
-  function supportedValuesOf(input: Key): string[];
+interface ITimeInputProps {
+  readonly options: Options<Option>
+  readonly t: Moment
+  readonly defaultTz?: string | null
+  changeT(t: Moment): void;
 }
 
-let formatDate = (date: Date) => {
-  var hours = date.getHours();
-  var minutes = date.getMinutes();
-  return (hours < 10 ? '0' + hours : hours) + ':' + (minutes < 10 ? '0' + minutes : minutes);
-}
+const TimeInputComponent = ({ options, t, changeT, defaultTz }: ITimeInputProps) => {
+  const [ tz, setTz ] = useState<Option | null>(getTimeZoneOption(defaultTz || ''))
 
-const TimeInputComponent = () => {
-  let currentTime = new Date()
+  const onChangeT = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (tz) {
+      changeT(moment(e.target.value, 'HH:mm').tz(tz.value))
+    }
+  }
+
   return (
-    <Form>
-      <Form.Control type="" value={ formatDate(currentTime) } />
-      <Form.Select>
-        {
-          Intl.supportedValuesOf('timeZone').map((item: string) => {
-            return <option key={item}>{item}</option>
-          })
-        }
-      </Form.Select>
-    </Form>
+    <Container>
+      <Row>
+        <Col>
+          <Form.Control
+            type="time"
+            value={ tz && tz.value ? t.tz(tz.value).format('HH:mm') : '' }
+            onChange={ onChangeT }
+          />
+        </Col>
+        <Col>
+        <Select
+          isSearchable={ true }
+          value={ options.find((option: Option) => option.value === tz?.value ) }
+          options={ options }
+          onChange={ setTz }
+        />
+        </Col>
+      </Row>
+    </Container>
   )
 }
 
