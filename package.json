@@ -2,7 +2,7 @@
   "name": "what-time-is",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://MaxNazarov93.github.io/what-time-is",
+  "homepage": "https://maxnazarov93.github.io/what-time-is",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
