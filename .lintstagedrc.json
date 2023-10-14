@@ -1,0 +1,10 @@
+{
+  "*.ts": ["prettier --parser typescript --write", "eslint --fix"],
+  "*.js": ["eslint --fix"],
+  "*.tsx": ["prettier --parser typescript --write", "eslint --fix"],
+  "*.html": [
+    "prettier --parser angular --write --print-width 120",
+    "stylelint --syntax html --fix"
+  ],
+  "*.css": ["prettier --parser css --write --print-width 120", "stylelint --syntax css --fix"]
+}

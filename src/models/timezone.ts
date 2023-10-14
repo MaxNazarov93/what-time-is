@@ -1,9 +1,10 @@
-import moment from 'moment-timezone';
+import moment from 'moment-timezone'
 
-function pad(num: number, size: number) {
-  let numS = num.toString();
-  while (numS.length < size) numS = "0" + numS;
-  return numS;
+const pad = (num: number, size: number) => {
+  let numS = num.toString()
+  while (numS.length < size) numS = '0' + numS
+
+  return numS
 }
 
 export class TimeZone {
@@ -12,11 +13,11 @@ export class TimeZone {
   offset: string
 
   constructor(tz: string) {
-    let utcOffset = moment().tz(tz).utcOffset()
-    let sign = utcOffset > 0 ? '+' : '-'
-    let h = pad(Math.abs(utcOffset / 60), 2)
-    let m = pad(utcOffset % 60, 2)
-    let offset = `${sign}${h}:${m}`
+    const utcOffset = moment().tz(tz).utcOffset()
+    const sign = utcOffset > 0 ? '+' : '-'
+    const h = pad(Math.abs(utcOffset / 60), 2)
+    const m = pad(utcOffset % 60, 2)
+    const offset = `${sign}${h}:${m}`
 
     this.label = tz.split('/').pop()?.replaceAll('_', ' ') || ''
     this.value = tz
