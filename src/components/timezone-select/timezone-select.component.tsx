@@ -2,7 +2,7 @@ import Form from 'react-bootstrap/Form'
 import 'moment-timezone'
 import { useEffect, useState } from 'react'
 import { Container, Modal } from 'react-bootstrap'
-import { TimeZone } from '../../models/timezone'
+import { TimeZone } from '../../types/timezone.type'
 
 export interface ITimeZoneSelectProps {
   options: TimeZone[]

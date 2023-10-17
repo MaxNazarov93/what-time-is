@@ -4,18 +4,27 @@ import { useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { BsStar, BsStarFill } from 'react-icons/bs'
 import { TimeZoneSelectComponent } from '../timezone-select/timezone-select.component'
-import { TimeZone } from '../../models/timezone'
+import { TimeZone } from '../../types/timezone.type'
+import { saveFavourite, deleteFavourite } from '../../utils/favourites.util'
 
 interface ITimeInputProps {
   readonly options: TimeZone[]
   readonly t: Moment
   readonly defaultTz: TimeZone
+  readonly defaultIsFavourite: boolean
   changeT(_t: Moment): void
 }
 
-const TimeInputComponent = ({ options, t, changeT, defaultTz }: ITimeInputProps) => {
+const TimeInputComponent = ({
+  options,
+  t,
+  changeT,
+  defaultTz,
+  defaultIsFavourite,
+}: ITimeInputProps) => {
   const [tz, setTz] = useState<TimeZone>(defaultTz)
   const [show, setIsShow] = useState<boolean>(false)
+  const [isFavourite, setIsFavourite] = useState<boolean>(defaultIsFavourite)
 
   const onChangeT = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (tz) {
@@ -23,13 +32,26 @@ const TimeInputComponent = ({ options, t, changeT, defaultTz }: ITimeInputProps)
     }
   }
 
+  const changeIsFavourite = (value: boolean) => {
+    if (value) {
+      saveFavourite({ tz: tz })
+    } else {
+      deleteFavourite({ tz: tz })
+    }
+    setIsFavourite(value)
+  }
+
   return (
     <>
       <Container>
         <Row>
           <Col>
-            <BsStar className='orange' size={30} />
-            <BsStarFill className='orange' size={30} />
+            {isFavourite && (
+              <BsStarFill className='orange' size={30} onClick={() => changeIsFavourite(false)} />
+            )}
+            {!isFavourite && (
+              <BsStar className='orange' size={30} onClick={() => changeIsFavourite(true)} />
+            )}
           </Col>
           <Col>
             <Form.Control
