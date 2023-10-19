@@ -1,44 +1,23 @@
 import Form from 'react-bootstrap/Form'
-import moment, { Moment } from 'moment-timezone'
+import moment from 'moment-timezone'
 import { useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import { BsStar, BsStarFill } from 'react-icons/bs'
+import { BsTrash3Fill } from 'react-icons/bs'
 import { TimeZoneSelectComponent } from '../timezone-select/timezone-select.component'
 import { TimeZone } from '../../types/timezone.type'
-import { saveFavourite, deleteFavourite } from '../../utils/favourites.util'
+import './time-input.component.css'
+import useTimeZoneListContext from '../../hooks/useTimeZonesContext'
 
 interface ITimeInputProps {
-  readonly options: TimeZone[]
-  readonly t: Moment
-  readonly defaultTz: TimeZone
-  readonly defaultIsFavourite: boolean
-  changeT(_t: Moment): void
+  readonly tz: TimeZone
 }
 
-const TimeInputComponent = ({
-  options,
-  t,
-  changeT,
-  defaultTz,
-  defaultIsFavourite,
-}: ITimeInputProps) => {
-  const [tz, setTz] = useState<TimeZone>(defaultTz)
+const TimeInputComponent = ({ tz }: ITimeInputProps) => {
   const [show, setIsShow] = useState<boolean>(false)
-  const [isFavourite, setIsFavourite] = useState<boolean>(defaultIsFavourite)
+  const { utcTime, setUtcTime, deleteTimeZone } = useTimeZoneListContext()
 
   const onChangeT = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (tz) {
-      changeT(moment(e.target.value, 'HH:mm').tz(tz.value))
-    }
-  }
-
-  const changeIsFavourite = (value: boolean) => {
-    if (value) {
-      saveFavourite({ tz: tz })
-    } else {
-      deleteFavourite({ tz: tz })
-    }
-    setIsFavourite(value)
+    setUtcTime(moment.tz(e.target.value, 'HH:mm', tz.value).utc(false))
   }
 
   return (
@@ -46,29 +25,22 @@ const TimeInputComponent = ({
       <Container>
         <Row>
           <Col>
-            {isFavourite && (
-              <BsStarFill className='orange' size={30} onClick={() => changeIsFavourite(false)} />
-            )}
-            {!isFavourite && (
-              <BsStar className='orange' size={30} onClick={() => changeIsFavourite(true)} />
-            )}
-          </Col>
-          <Col>
             <Form.Control
               className='bg-dark'
               type='time'
-              value={tz && tz ? t.tz(tz.value).format('HH:mm') : ''}
+              value={tz ? utcTime.tz(tz.value).format('HH:mm') : ''}
               onChange={onChangeT}
             />
             <button className='bg-dark time-zone' onClick={() => setIsShow(true)}>
               {tz.label} {tz.offset}
             </button>
           </Col>
+          <Col xs={1} className='d-flex align-items-center'>
+            <BsTrash3Fill className='orange' size={30} onClick={() => deleteTimeZone(tz)} />
+          </Col>
         </Row>
       </Container>
-      {show && (
-        <TimeZoneSelectComponent options={options} tz={tz} setIsShow={setIsShow} setTz={setTz} />
-      )}
+      {show && <TimeZoneSelectComponent tz={tz} setIsShow={setIsShow} />}
     </>
   )
 }

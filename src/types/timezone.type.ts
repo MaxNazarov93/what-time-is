@@ -1,4 +1,4 @@
-import moment from 'moment-timezone'
+import moment, { Moment } from 'moment-timezone'
 
 const pad = (num: number, size: number) => {
   let numS = num.toString()
@@ -23,4 +23,17 @@ export class TimeZone {
     this.value = tz
     this.offset = offset
   }
+
+  isEqual = (otherTZ: TimeZone): boolean => {
+    return this.label == otherTZ.label && this.value == otherTZ.value
+  }
+}
+
+export type TimeZonesContext = {
+  utcTime: Moment
+  setUtcTime: (_time: Moment) => void
+  timeZones: TimeZone[]
+  addTimeZone: (_timeZone: TimeZone) => void
+  changeTimeZone: (_oldTimeZone: TimeZone, _timeZone: TimeZone) => void
+  deleteTimeZone: (_timeZone: TimeZone) => void
 }

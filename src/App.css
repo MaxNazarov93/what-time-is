@@ -32,6 +32,10 @@ input.form-control:focus {
   box-shadow: none;
 }
 
+input[type='time']::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
 .App {
   text-align: center;
 }

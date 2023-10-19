@@ -3,29 +3,33 @@ import 'moment-timezone'
 import { useEffect, useState } from 'react'
 import { Container, Modal } from 'react-bootstrap'
 import { TimeZone } from '../../types/timezone.type'
+import useTimeZonesContext from '../../hooks/useTimeZonesContext'
+import { getAvailableTimeZones } from '../../utils/time-zones.util'
 
 export interface ITimeZoneSelectProps {
-  options: TimeZone[]
   tz?: TimeZone | null
   setIsShow(_value: boolean): void
-  setTz(_tz: TimeZone): void
 }
 
-export const TimeZoneSelectComponent = ({
-  options,
-  tz,
-  setTz,
-  setIsShow,
-}: ITimeZoneSelectProps) => {
+export const TimeZoneSelectComponent = ({ tz, setIsShow }: ITimeZoneSelectProps) => {
+  const options: TimeZone[] = getAvailableTimeZones()
+
   const [isShow, setShow] = useState<boolean>(true)
   const [search, setSearch] = useState<string>(tz?.label || '')
+
+  const { addTimeZone, changeTimeZone } = useTimeZonesContext()
 
   const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
   }
 
-  const onChangeTz = (tz: TimeZone) => {
-    setTz(tz)
+  const onChangeTz = (selectedTimeZone: TimeZone) => {
+    if (tz) {
+      changeTimeZone(tz, selectedTimeZone)
+    } else {
+      addTimeZone(selectedTimeZone)
+    }
+
     hide()
   }
 
