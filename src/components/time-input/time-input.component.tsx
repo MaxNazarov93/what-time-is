@@ -35,9 +35,11 @@ const TimeInputComponent = ({ tz }: ITimeInputProps) => {
               {tz.label} {tz.offset}
             </button>
           </Col>
-          <Col xs={1} className='d-flex align-items-center'>
+          <div
+            style={{ maxWidth: 30, padding: 0 }}
+            className='d-flex align-items-center justify-content-center'>
             <BsTrash3Fill className='orange' size={30} onClick={() => deleteTimeZone(tz)} />
-          </Col>
+          </div>
         </Row>
       </Container>
       {show && <TimeZoneSelectComponent tz={tz} setIsShow={setIsShow} />}

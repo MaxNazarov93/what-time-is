@@ -36,6 +36,10 @@ input[type='time']::-webkit-calendar-picker-indicator {
   display: none;
 }
 
+input::-webkit-date-and-time-value {
+  text-align: left;
+}
+
 .App {
   text-align: center;
 }

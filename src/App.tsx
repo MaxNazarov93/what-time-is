@@ -1,4 +1,5 @@
 import './App.css'
+import { Helmet } from 'react-helmet'
 import Container from 'react-bootstrap/Container'
 import Stack from 'react-bootstrap/Stack'
 import { useState } from 'react'
@@ -12,17 +13,22 @@ function App() {
   const [show, setIsShow] = useState<boolean>(false)
 
   return (
-    <TimeZonesProvider>
-      <Container className='p-3 justify-content-md-center'>
-        <Stack gap={3}>
-          <TimeZoneList />
-          <Button variant='warning' onClick={() => setIsShow(true)}>
-            +
-          </Button>
-        </Stack>
-      </Container>
-      {show && <TimeZoneSelectComponent setIsShow={setIsShow} />}
-    </TimeZonesProvider>
+    <>
+      <Helmet>
+        <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent' />
+      </Helmet>
+      <TimeZonesProvider>
+        <Container className='p-3 justify-content-md-center'>
+          <Stack gap={3}>
+            <TimeZoneList />
+            <Button variant='warning' onClick={() => setIsShow(true)}>
+              +
+            </Button>
+          </Stack>
+        </Container>
+        {show && <TimeZoneSelectComponent setIsShow={setIsShow} />}
+      </TimeZonesProvider>
+    </>
   )
 }
 
