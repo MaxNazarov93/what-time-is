@@ -1,22 +1,10 @@
 {
-  "extends": ["stylelint-config-standard", "stylelint-config-prettier"],
+  "extends": ["stylelint-config-standard"],
   "plugins": ["stylelint-order"],
   "rules": {
     "no-descending-specificity": null,
     "no-duplicate-selectors": null,
     "font-family-no-missing-generic-family-keyword": null,
-    "block-opening-brace-newline-after": "always-multi-line",
-    "block-closing-brace-empty-line-before": "never",
-    "block-closing-brace-newline-before": "always-multi-line",
-    "comment-empty-line-before": "always",
-    "color-hex-case": "lower",
-    "declaration-colon-newline-after": "always-multi-line",
-    "declaration-empty-line-before": [
-      "never",
-      {
-        "ignore": "after-declaration"
-      }
-    ],
     "declaration-block-no-redundant-longhand-properties": [
       true,
       {
@@ -35,7 +23,6 @@
         "ignorePseudoElements": ["ng-deep"]
       }
     ],
-    "property-blacklist": ["word-wrap"],
     "property-no-unknown": [
       true,
       {
@@ -48,9 +35,8 @@
         "ignoreTypes": ["svg", "g", "path", "line"]
       }
     ],
-    "selector-list-comma-newline-after": "always",
     "no-empty-source": true,
-    "number-leading-zero": "never",
+    "at-rule-no-unknown": [true, { "ignoreAtRules": ["tailwind", "apply", "layer", "config", "theme", "screen"] }],
     "order/properties-order": [
       {
         "properties": ["position", "top", "right", "bottom", "left", "z-index"]

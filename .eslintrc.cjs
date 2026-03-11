@@ -30,7 +30,7 @@ module.exports = {
       jsx: true,
     },
   },
-  plugins: ['react', 'react-hooks', 'react-refresh'],
+  plugins: ['react', 'react-hooks'],
   rules: {
     'react-hooks/exhaustive-deps': 'off',
     'newline-before-return': 'error',
@@ -47,8 +47,8 @@ module.exports = {
     'react/jsx-curly-spacing': 'warn',
     'react/jsx-equals-spacing': 'warn',
     'react/jsx-wrap-multilines': 'warn',
-    'react-refresh/only-export-components': 'warn',
-    'no-unused-vars': [
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': [
       'error',
       {
         vars: 'all',
@@ -68,5 +68,8 @@ module.exports = {
         '.json': 'always',
       },
     ],
+    'jsx-a11y/no-autofocus': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'jsx-a11y/no-static-element-interactions': 'off',
   },
 }
